@@ -1,0 +1,20 @@
+# numerical arrays
+numpy>=1.19
+
+# camera + image capture
+# • For the legacy PiCamera API (v1 cameras)
+picamera>=1.13
+# • Or, if you’re on Bullseye+ and using libcamera:
+# picamera2>=0.8
+
+# computer-vision routines
+opencv-python>=4.5
+
+# TensorFlow Lite runtime (much lighter than full TF)
+tflite-runtime>=2.5.0
+
+# convenience helpers (e.g. FPS counter, resizing)
+imutils>=0.5.4
+
+# configuration parsing (if you load a YAML/JSON config)
+pyyaml>=5.3
