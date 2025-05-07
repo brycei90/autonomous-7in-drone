@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simple GCS</title>
+  <!-- Load React & ReactDOM from unpkg -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <style>
+    body { font-family: sans-serif; padding: 1rem; }
+    li { margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+  <h1>Live MAVLink Messages</h1>
+  <ul id="list"></ul>
+
+  <script>
+    // Simple “React” using UMD builds:
+    const e = React.createElement;
+    function App() {
+      const [msgs, setMsgs] = React.useState([]);
+
+      React.useEffect(() => {
+        const ws = new WebSocket("ws://localhost:8000/ws");
+        ws.onopen = () => console.log("WS connected");
+        ws.onmessage = e => {
+          const m = JSON.parse(e.data);
+          setMsgs(ms => [m, ...ms].slice(0, 20));
+        };
+        return () => ws.close();
+      }, []);
+
+      return e("ul", null,
+        msgs.map((m,i) =>
+          e("li", { key:i },
+            e("strong", null, m.msg_type),
+            ": ",
+            JSON.stringify(m.payload).slice(0,50), "…"
+          )
+        )
+      );
+    }
+
+    // Render into the <ul> with id="list"
+    ReactDOM.createRoot(document.getElementById("list")).render(e(App));
+  </script>
+</body>
+</html>
