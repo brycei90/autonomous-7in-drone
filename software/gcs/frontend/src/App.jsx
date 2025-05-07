@@ -4,7 +4,7 @@ export default function App() {
     const [msgs, setMsgs] = useState([])
 
     useEffect(() => {
-        const ws = new WebSocket('ws://localhost:8000/ws')
+        const ws = new WebSocket("ws://localhost:8000/ws");
         ws.onmessage = (e) => {
             const data = JSON.parse(e.data)
             setMsgs((prev) => [data, ...prev].slice(0,20))
