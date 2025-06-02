@@ -1,9 +1,17 @@
 from pymavlink import mavutil
 from assets.connection import connect_to_mavlink
 import websocket
-from assets.websocketClient import on_message, on_error, on_close, on_open
 import asyncio
+from assets.telemetry import telemetry
 
-connect_to_mavlink()
+#mavwp load/save waypoints
+#mavparam load/save sets of MAVLink parameters
+#
 
-ws = websocket.WebSocketApp("ws://localhost:8000")
+connection = mavutil.mavlink_connection('tcp:127.0.0.1:5762')
+
+#change this to a different connection for the actual drone
+connect_to_mavlink(connection)
+
+#ws = websocket.WebSocketApp("ws://localhost:8000")
+telemetry(connection)
